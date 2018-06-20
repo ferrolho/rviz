@@ -142,10 +142,10 @@ VisualizationManager::VisualizationManager( RenderPanel* render_panel, WindowMan
 
   rviz::RenderSystem::RenderSystem::get()->prepareOverlays(scene_manager_);
 
-  directional_light_ = scene_manager_->createLight( "MainDirectional" );
-  directional_light_->setType( Ogre::Light::LT_DIRECTIONAL );
-  directional_light_->setDirection( Ogre::Vector3( -1, 0, -1 ) );
-  directional_light_->setDiffuseColour( Ogre::ColourValue( 1.0f, 1.0f, 1.0f ) );
+  // directional_light_ = scene_manager_->createLight( "MainDirectional" );
+  // directional_light_->setType( Ogre::Light::LT_DIRECTIONAL );
+  // directional_light_->setDirection( Ogre::Vector3( -1, 0, -1 ) );
+  // directional_light_->setDiffuseColour( Ogre::ColourValue( 1.0f, 1.0f, 1.0f ) );
 
   root_display_group_ = new DisplayGroup();
   root_display_group_->setName( "root" );
@@ -281,6 +281,8 @@ void createColorMaterial(const std::string& name, const Ogre::ColourValue& color
   Ogre::MaterialPtr mat = Ogre::MaterialManager::getSingleton().create( name, ROS_PACKAGE_NAME );
   mat->setAmbient(color * 0.5f);
   mat->setDiffuse(color);
+  mat->setSpecular( 1, 1, 1, 1 );
+  mat->setShininess( 20.0 );
   if( use_self_illumination )
   {
     mat->setSelfIllumination(color);
@@ -359,7 +361,7 @@ void VisualizationManager::onUpdate()
         view_manager_->getCurrent() &&
         view_manager_->getCurrent()->getCamera() )
   {
-    directional_light_->setDirection(view_manager_->getCurrent()->getCamera()->getDerivedDirection());
+    // directional_light_->setDirection(view_manager_->getCurrent()->getCamera()->getDerivedDirection());
   }
 
   frame_count_++;
